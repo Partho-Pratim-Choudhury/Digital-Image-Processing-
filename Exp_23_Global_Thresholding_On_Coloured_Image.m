@@ -1,0 +1,37 @@
+rgbImage = imread('cocacola_color_img.jpg');
+figure;
+subplot(2, 3, 1);
+imshow(rgbImage);
+title('Original RGB Image');
+
+redChannel = rgbImage(:, :, 1);
+greenChannel = rgbImage(:, :, 2);
+blueChannel = rgbImage(:, :, 3);
+redThreshold = graythresh(redChannel);
+greenThreshold = graythresh(greenChannel);
+blueThreshold = graythresh(blueChannel);
+redBinary = imbinarize(redChannel, redThreshold);
+greenBinary = imbinarize(greenChannel, greenThreshold);
+blueBinary = imbinarize(blueChannel, blueThreshold);
+subplot(2, 3, 2);
+imshow(redBinary);
+title('Thresholded Red Channel');
+subplot(2, 3, 3);
+imshow(greenBinary);
+title('Thresholded Green Channel');
+subplot(2, 3, 4);
+imshow(blueBinary);
+title('Thresholded Blue Channel');
+redBinary = uint8(redBinary) * 255;
+greenBinary = uint8(greenBinary) * 255;
+blueBinary = uint8(blueBinary) * 255;
+thresholdedRGB = cat(3, redBinary, greenBinary, blueBinary);
+subplot(2, 3, 5);
+imshow(thresholdedRGB);
+title('Global Thresholding in all channels');
+thresholdedRGB(:, :, 1) = 255 - thresholdedRGB(:, :, 1);
+thresholdedRGB(:, :, 2) = 255 - thresholdedRGB(:, :, 2);
+thresholdedRGB(:, :, 3) = 255 - thresholdedRGB(:, :, 3);
+subplot(2, 3, 6)
+imshow(thresholdedRGB);
+title('Global Thresholding Background');
